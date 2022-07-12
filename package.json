@@ -1,0 +1,45 @@
+{
+  "name": "@zouloux/yadl",
+  "version": "0.1.0",
+  "description": "Yet Another DOM Library",
+  "main": "./dist/index.es2017.cjs",
+  "module": "./dist/index.es2020.mjs",
+  "unpkg": "./dist/index.es2017.min.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "reset": "rm -rf node_modules && npm i",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsbundle build",
+    "publish": "tsbundle publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zouloux/yadl.git"
+  },
+  "keywords": [
+    "dom",
+    "library"
+  ],
+  "author": "Alexis Bouhet - ZoulouX",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zouloux/yadl/issues"
+  },
+  "homepage": "https://github.com/zouloux/yadl#readme",
+  "devDependencies": {
+    "@types/node": "^18.0.3",
+    "@zouloux/tsbundle": "^1.2.16"
+  },
+  "tsbundle": {
+    "exportMap": {
+      "Yadl": "./index"
+    },
+    "output": "./dist/",
+    "files": [
+      {
+        "input": "./src/index.ts",
+        "exportBits": true
+      }
+    ]
+  }
+}
