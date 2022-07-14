@@ -1,6 +1,6 @@
 {
   "name": "@zouloux/yadl",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Yet Another DOM Library",
   "main": "./dist/index.es2017.cjs",
   "module": "./dist/index.es2020.mjs",
@@ -9,7 +9,7 @@
   "scripts": {
     "reset": "rm -rf node_modules && npm i",
     "clean": "rm -rf dist",
-    "build": "npm run clean && tsbundle build",
+    "build": "tsbundle build",
     "publish": "tsbundle publish"
   },
   "repository": {
@@ -28,7 +28,7 @@
   "homepage": "https://github.com/zouloux/yadl#readme",
   "devDependencies": {
     "@types/node": "^18.0.3",
-    "@zouloux/tsbundle": "^1.2.16"
+    "@zouloux/tsbundle": "^1.2.17"
   },
   "tsbundle": {
     "exportMap": {

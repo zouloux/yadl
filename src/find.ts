@@ -19,7 +19,7 @@ function selectorDefaults ( containerOrSelector:ContainerOrSelector, selector?: 
 /**
  * Select a single HTMLElement in current document or container.
  */
-export function $ ( containerOrSelector: ContainerOrSelector, selector?: string ):HTMLElement {
+export function find ( containerOrSelector: ContainerOrSelector, selector?: string ):HTMLElement {
 	const [c, s] = selectorDefaults( containerOrSelector, selector );
 	return c.querySelector( s ) as HTMLElement;
 }
@@ -27,8 +27,7 @@ export function $ ( containerOrSelector: ContainerOrSelector, selector?: string 
 /**
  * Select list of HTMLElements in current document or container.
  */
-export function $$ ( containerOrSelector:ContainerOrSelector, selector?: string ):HTMLElement[]
-{
+export function findAll ( containerOrSelector:ContainerOrSelector, selector?: string ):HTMLElement[] {
 	const [c, s] = selectorDefaults( containerOrSelector, selector );
 	return Array.from( c.querySelectorAll( s ) )
 }

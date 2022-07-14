@@ -1,14 +1,13 @@
-import { on } from "./events";
+import { once } from "./events";
 
 /**
  * DOM is parsed ready (not loaded)
  */
-export async function domReady () {
+export async function onReady () {
 	return new Promise<Event|void>( resolve => {
-		if ( document.readyState !== 'loading' )
-			resolve();
-		else
-			document.addEventListener('DOMContentLoaded', resolve);
+		document.readyState == 'loading'
+		? once( document, 'DOMContentLoaded', resolve )
+		: resolve()
 	});
 }
 
@@ -19,9 +18,11 @@ export async function domReady () {
  */
 export async function onLoad ( element:HTMLElement = document.body ) {
 	return new Promise<void>( (resolve, reject) => {
+		// Check if element has already loaded
 		if ( 'complete' in element && element['complete'] )
 			return resolve();
-		on(element, ['load', 'error'], event => {
+		// Otherwise, listen for load and error events once
+		once(element, ['load', 'error'], event => {
 			event.type === 'load' ? resolve() : reject();
 		});
 	});

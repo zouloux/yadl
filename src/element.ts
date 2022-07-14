@@ -77,6 +77,14 @@ export function getStyle ( element:HTMLElement, propertyName:(keyof CSSStyleDecl
 }
 
 /**
+ * Convert REM value to pixels
+ */
+export function convertREMToPixels ( remValue:number ) {
+	const fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize)
+	return remValue * fontSize
+}
+
+/**
  * Create a new DOM Element.
  * @param htmlOrTagName HTML Connect or tag name of the new element.
  * @param attributes List of default attributes.

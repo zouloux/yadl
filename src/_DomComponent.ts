@@ -1,4 +1,10 @@
-import { $, $$ } from "./find";
+/**
+ * TODO : Convert to reflex:component
+ */
+
+
+
+import { find, findAll } from "./find";
 import { EventHandler, on } from "./events";
 
 interface IClassComponent <G, P>
@@ -77,7 +83,7 @@ export class _DomComponent<P = any, B extends HTMLElement = HTMLElement>
 
 	constructor ( base:B = null, props?:P )
 	{
-		this.base = base ?? $( getComponentClass(this, '.') ) as B;
+		this.base = base ?? find( getComponentClass(this, '.') ) as B;
 		this.props = props;
 
 		// Wait end of frame to init, so selector properties are ready
@@ -100,7 +106,7 @@ export class _DomComponent<P = any, B extends HTMLElement = HTMLElement>
 	 * @param events TODO DOC
 	 */
 	find <H extends HTMLElement> ( selector:string, events ?: TEventsMap ):H {
-		const $element = $( this.base, defaultRef<any>( this, selector )[ 0 ] ) as H;
+		const $element = find( this.base, defaultRef<any>( this, selector )[ 0 ] ) as H;
 		events && this.addEventsToElement( $element, events );
 		return $element;
 	}
@@ -113,7 +119,7 @@ export class _DomComponent<P = any, B extends HTMLElement = HTMLElement>
 	 * @param events TODO DOC
 	 */
 	multiFind <H extends HTMLElement> ( selector:string, events ?: TEventsMap ):H[] {
-		const $elements = $$( this.base, defaultRef<any>( this, selector )[ 0 ] ) as H[];
+		const $elements = findAll( this.base, defaultRef<any>( this, selector )[ 0 ] ) as H[];
 		events && $elements.map( $element => this.addEventsToElement( $element, events ) );
 		return $elements;
 	}
@@ -135,7 +141,7 @@ export class _DomComponent<P = any, B extends HTMLElement = HTMLElement>
 	{
 		const [s, p] = defaultRef<P>( this, selectorOrProps, props );
 		const selector = s || getComponentClass(ComponentClass, '.');
-		const $element = $( this.base, selector);
+		const $element = find( this.base, selector);
 		if (!$element) throw new Error(`DomComponent.ref // Component with selector '${selector}' not found in ${getComponentClass(this)}.`);
 		return new ComponentClass( $element, p );
 	}
@@ -154,7 +160,7 @@ export class _DomComponent<P = any, B extends HTMLElement = HTMLElement>
 	{
 		const [s, p] = defaultRef<P>( this, selectorOrProps, props );
 		const selector = s || getComponentClass(ComponentClass, '.');
-		const $element = $( this.base, selector);
+		const $element = find( this.base, selector);
 		if (!$element) return null;
 		return new ComponentClass( $element, p );
 	}
@@ -172,7 +178,7 @@ export class _DomComponent<P = any, B extends HTMLElement = HTMLElement>
 	{
 		const [s, p] = defaultRef<TMultiProp<P>>( this, selectorOrProps, props );
 		const refs = [];
-		$$( this.base, s || getComponentClass(ComponentClass, '.') ).map( (el, i) =>
+		findAll( this.base, s || getComponentClass(ComponentClass, '.') ).map( ( el, i) =>
 			refs.push( new ComponentClass( el, {
 				// Always inject index in child component props
 				index: i,

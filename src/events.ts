@@ -1,4 +1,4 @@
-import { $$ } from "./find";
+import { findAll } from "./find";
 
 // TODO : Ecoute d'event à la JQuery, avec un selecteur
 //  	document.body, 'a' -> Ecouter tous les a, même créés après l'écoute
@@ -19,7 +19,7 @@ export type EventHandler = (event:Event, ...rest) => any|void
 // ----------------------------------------------------------------------------- WIRING
 
 // Wire one or several events to several elements
-export function connectElements ( connect:boolean, elements:EventTarget[], events:SingleOrMultiEventName, handler:EventHandler, options?:AddEventListenerOptions ) {
+function connectElements ( connect:boolean, elements:EventTarget[], events:SingleOrMultiEventName, handler:EventHandler, options?:AddEventListenerOptions ) {
 	function wire ( eventName:SingleEventName, element:EventTarget ) {
 		connect
 		? element.addEventListener( eventName, handler, options )
@@ -37,7 +37,7 @@ export function connectElements ( connect:boolean, elements:EventTarget[], event
 // Default for element or selector argument
 function defaultElements ( elementOrSelector:EventTarget|EventTarget[]|string ):EventTarget[] {
 	if ( typeof elementOrSelector === 'string' )
-		elementOrSelector =  $$( elementOrSelector )
+		elementOrSelector =  findAll( elementOrSelector )
 	else if ( !Array.isArray( elementOrSelector ) )
 		elementOrSelector = [ elementOrSelector ]
 	// Check if element is not null
@@ -49,7 +49,7 @@ function defaultElements ( elementOrSelector:EventTarget|EventTarget[]|string ):
 // ----------------------------------------------------------------------------- ON
 
 /**
- * Listen one or several Events on one or several DOM Elements
+ * Listen one or several events on one or several DOM Elements.
  * @param elementOrSelector Can be one DOM Element, an array of DOM Elements, or a query selector as string.
  * @param events Can be one event, or an array of events.
  * @param handler The handler called when a listened event triggers. Have to be correctly scoped.
@@ -70,6 +70,14 @@ export function on (
 }
 
 
+/**
+ * Listen one or several events on one or several DOM Elements.
+ * Event handler will be dispatched only once.
+ * @param elementOrSelector Can be one DOM Element, an array of DOM Elements, or a query selector as string.
+ * @param events Can be one event, or an array of events.
+ * @param handler The handler called when a listened event triggers. Have to be correctly scoped.
+ * @param options addEventListener options.
+ */
 export function once (
 	elementOrSelector	:EventTarget|EventTarget[]|string,
 	events				:SingleOrMultiEventName,
@@ -78,9 +86,11 @@ export function once (
 ):() => void {
 	// Get default from arguments
 	const elements = defaultElements( elementOrSelector );
-
+	// Create remove handler
 	const removeAll = () => connectElements( false, elements, events, handlerProxy, options );
+	// Create a proxy to remove when event is dispatched
 	function handlerProxy (...rest) {
+		// Remove, then dispatch original handler
 		removeAll();
 		handler.apply(null, rest)
 	}
