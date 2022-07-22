@@ -1,9 +1,9 @@
 {
-  "name": "@zouloux/yadl",
+  "name": "yadl",
   "version": "0.2.0",
   "description": "Yet Another DOM Library",
-  "main": "./dist/index.es2017.cjs",
-  "module": "./dist/index.es2020.mjs",
+  "main": "./dist/index.es2019.cjs",
+  "module": "./dist/index.es2022.mjs",
   "unpkg": "./dist/index.es2017.min.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -28,7 +28,7 @@
   "homepage": "https://github.com/zouloux/yadl#readme",
   "devDependencies": {
     "@types/node": "^18.0.3",
-    "@zouloux/tsbundle": "^1.2.17"
+    "@zouloux/tsbundle": "^1.2.23"
   },
   "tsbundle": {
     "exportMap": {

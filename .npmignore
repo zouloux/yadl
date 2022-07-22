@@ -1,5 +1,6 @@
 .DS_Store
 .idea
 tsconfig.json
+tsconfig.tsbuildinfo
 bits/
 src/
