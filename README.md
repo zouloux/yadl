@@ -147,11 +147,16 @@ setAttributes(div2, {
 
 #### TODO DOC
 
-### More with `getStyle` and `convertREMToPixels`
+### More with `getStyle`
 
 #### TODO DOC
 
-### parseValue / setAttributes
+- `splitSizeAndValue`
+- `remToPixels`
+
+#### TODO DOC
+
+### setAttributes
 
 #### TODO DOC
 
