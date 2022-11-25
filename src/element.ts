@@ -3,8 +3,6 @@ type StyleScalarValue = string|number|null
 type StyleFunctionalValue = ( element:HTMLElement, style:StyleObject ) => StyleScalarValue
 type StyleObject = Partial<Record <keyof CSSStyleDeclaration, StyleScalarValue | StyleFunctionalValue>>|{[key:string]:number|string|null};
 
-type TValueParts = 'unit'|'value';
-
 // TODO : Trouver mieux que ça depuis stdlib
 // TODO : DOC
 type AttributeList = {[key:string]:any};
@@ -51,37 +49,11 @@ export function setStyle ( element:HTMLElement|HTMLElement[], style:StyleObject 
 }
 
 /**
- * Parse value, when importing sizes or positions from css modules.
- * @param value string to parse.
- * @param part 'value' or 'unit', default is 'value'.
- */
-export function parseValue ( value, part:TValueParts = 'value' ):number|string {
-	// Value is already a number
-	if ( typeof value === 'number' && part == 'value' )
-		return value;
-	// Split digital from alpha chars
-	const split = value.match(/(\d*\.?\d*)(.*)/);
-	if ( part == 'value' )
-		return parseFloat( split[ 1 ] );
-	else if ( part == 'unit' )
-		return split[ 2 ].toLowerCase();
-}
-
-/**
  * Get computed style value from a DOM Element.
  */
-export function getStyle ( element:HTMLElement, propertyName:(keyof CSSStyleDeclaration), part:(TValueParts|'all') = 'value' ) {
+export function getStyle ( element:HTMLElement, propertyName:(keyof CSSStyleDeclaration) ) {
 	const computed  = getComputedStyle( element );
-	const value = computed[ propertyName ] ?? '';
-	return ( part == 'all' ? value : parseValue(value, part) );
-}
-
-/**
- * Convert REM value to pixels
- */
-export function convertREMToPixels ( remValue:number ) {
-	const fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize)
-	return remValue * fontSize
+	return computed[ propertyName ] ?? '';
 }
 
 /**
