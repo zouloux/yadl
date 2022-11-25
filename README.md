@@ -151,7 +151,7 @@ setAttributes(div2, {
 
 #### TODO DOC
 
-- `splitSizeAndValue`
+- `splitSizeAndUnit`
 - `remToPixels`
 
 #### TODO DOC
