@@ -1,6 +1,6 @@
 {
   "name": "yadl",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Yet Another DOM Library",
   "main": "./dist/index.es2019.cjs",
   "module": "./dist/index.es2022.mjs",

@@ -20,6 +20,8 @@ export interface OnAddEventListenerOptions extends AddEventListenerOptions {
 	dispatchAtInit?:boolean
 }
 
+export type OnTarget = EventTarget|EventTarget[]|string
+
 // ----------------------------------------------------------------------------- WIRING
 
 // Wire one or several events to several elements
@@ -64,7 +66,7 @@ function defaultElements ( elementOrSelector:EventTarget|EventTarget[]|string ):
  * @param options addEventListener options.
  */
 export function on (
-	elementOrSelector	:EventTarget|EventTarget[]|string,
+	elementOrSelector	:OnTarget,
 	events				:SingleOrMultiEventName,
 	handler				:EventHandler,
 	options				?:OnAddEventListenerOptions
@@ -77,7 +79,6 @@ export function on (
 	return () => connectElements( false, elements, events, handler, options );
 }
 
-
 /**
  * Listen one or several events on one or several DOM Elements.
  * Event handler will be dispatched only once.
@@ -87,7 +88,7 @@ export function on (
  * @param options addEventListener options.
  */
 export function once (
-	elementOrSelector	:EventTarget|EventTarget[]|string,
+	elementOrSelector	:OnTarget,
 	events				:SingleOrMultiEventName,
 	handler				:EventHandler,
 	options				?:OnAddEventListenerOptions
