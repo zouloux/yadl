@@ -8,18 +8,24 @@ import { findAll } from "./find";
 // All accepted types for event as strings.
 // Can add others from lib.dom.d.ts
 // FIXME : https://github.com/microsoft/TypeScript/issues/33047
-type AllEventMaps = (WindowEventMap & HTMLElementEventMap & DocumentEventMap);
-type SingleEventName = (keyof AllEventMaps)|string
+export type AllEventMaps = (WindowEventMap & HTMLElementEventMap & DocumentEventMap);
+export type SingleEventName = (keyof AllEventMaps)|string
 // Single or multi-types
-type SingleOrMultiEventName = SingleEventName | SingleEventName[];
+export type SingleOrMultiEventName = SingleEventName | SingleEventName[];
 
 // TODO : if possible, real event type
 export type EventHandler = (event:Event, ...rest) => any|void
 
+export interface OnAddEventListenerOptions extends AddEventListenerOptions {
+	dispatchAtInit?:boolean
+}
+
 // ----------------------------------------------------------------------------- WIRING
 
 // Wire one or several events to several elements
-function connectElements ( connect:boolean, elements:EventTarget[], events:SingleOrMultiEventName, handler:EventHandler, options?:AddEventListenerOptions ) {
+function connectElements ( connect:boolean, elements:EventTarget[], events:SingleOrMultiEventName, handler:EventHandler, options?:OnAddEventListenerOptions ) {
+	const { dispatchAtInit } = options
+	delete options.dispatchAtInit
 	function wire ( eventName:SingleEventName, element:EventTarget ) {
 		connect
 		? element.addEventListener( eventName, handler, options )
@@ -30,6 +36,8 @@ function connectElements ( connect:boolean, elements:EventTarget[], events:Singl
 		? events.map( event => wire(event, element) )
 		: wire( events, element )
 	))
+	if ( dispatchAtInit )
+		handler( null )
 }
 
 // ----------------------------------------------------------------------------- DEFAULTS
@@ -59,7 +67,7 @@ export function on (
 	elementOrSelector	:EventTarget|EventTarget[]|string,
 	events				:SingleOrMultiEventName,
 	handler				:EventHandler,
-	options				?:AddEventListenerOptions
+	options				?:OnAddEventListenerOptions
 ):() => void {
 	// Get default from arguments
 	const elements = defaultElements( elementOrSelector );
@@ -82,7 +90,7 @@ export function once (
 	elementOrSelector	:EventTarget|EventTarget[]|string,
 	events				:SingleOrMultiEventName,
 	handler				:EventHandler,
-	options				?:AddEventListenerOptions
+	options				?:OnAddEventListenerOptions
 ):() => void {
 	// Get default from arguments
 	const elements = defaultElements( elementOrSelector );
