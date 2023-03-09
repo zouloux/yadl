@@ -25,7 +25,7 @@ export type OnTarget = EventTarget|EventTarget[]|string
 // ----------------------------------------------------------------------------- WIRING
 
 // Wire one or several events to several elements
-function connectElements ( connect:boolean, elements:EventTarget[], events:SingleOrMultiEventName, handler:EventHandler, options?:OnAddEventListenerOptions ) {
+function connectElements ( connect:boolean, elements:EventTarget[], events:SingleOrMultiEventName, handler:EventHandler, options:OnAddEventListenerOptions = {} ) {
 	const { dispatchAtInit } = options
 	delete options.dispatchAtInit
 	function wire ( eventName:SingleEventName, element:EventTarget ) {
