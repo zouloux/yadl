@@ -1,6 +1,7 @@
 
 export {element, getStyle, setStyle, setAttributes} from "./element"
-export {once, on, EventHandler} from "./events"
+export {once, on} from "./events"
+export type {EventHandler, SingleEventName, SingleOrMultiEventName, OnAddEventListenerOptions, AllEventMaps} from "./events"
 export {findAll, find, getParentWithClass} from "./find"
 export {find as $, findAll as $$} from "./find"
 export {onReady, onLoad} from "./load"
